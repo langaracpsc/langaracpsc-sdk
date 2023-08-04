@@ -1,31 +1,24 @@
 import os
-import enum
 import json
 import requests
+from enum import IntEnum
 
-class ExecPostion(Enum):
-    President,
-    VicePresident,
-    TechLead,
-    GeneralRep,
-    PublicRelations,
-    Finance,
-    Events
+class ExecPosition(IntEnum):
+    President = 0
+    VicePresident = 1
+    TechLead = 2
+    GeneralRep = 3
+    PublicRelations = 4
+    Finance = 5
+    Events = 6
+
 
 class Exec:
-    firstname = str()
-
-    lastname = str()
-
-    email = str()
-
-    position = ExecPostion
-
-    def ToJson(self):
-        return json.dumps(self)
-    
-    def __init__(self, _firstname: str, _lastname: str, _email: str, _position: ExecPosition):
-        self.firstname = _firstname
-        self.lastname = _lastname
-        self.email = _email
+    def __init__(self, studentid: str, firstname: str, lastname: str, position: ExecPosition):
+        self.StudentID = studentid
+        self.FirstName = firstname
+        self.LastName = lastname
         self.Position = position
+
+    def ToJson(self) -> str:
+        return json.dumps(dict({ "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position) }))
