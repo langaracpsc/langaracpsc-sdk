@@ -12,13 +12,13 @@ class ExecPosition(IntEnum):
     Finance = 5
     Events = 6
 
-
 class Exec:
-    def __init__(self, studentid: str, firstname: str, lastname: str, position: ExecPosition):
+    def __init__(self, studentid: int, firstname: str, lastname: str, position: ExecPosition, email: str):
         self.StudentID = studentid
         self.FirstName = firstname
         self.LastName = lastname
         self.Position = position
+        self.Email = email
 
     def ToJson(self) -> str:
-        return json.dumps(dict({ "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position) }))
+        return json.dumps(dict({ "studentid": self.StudentID, "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position), "email": self.Email }))

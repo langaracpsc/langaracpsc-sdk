@@ -11,8 +11,9 @@ class RequestMethod(IntEnum):
 class Base64Request:
     MethodStrings = list[str]([ "GET", "POST" ])
 
-    def SerializeHeaders(headers: dict[str]):
-        return Util.Util.TrimBase64(str(base64.b64encode(json.dumps(headers).encode("utf-8"))))
+    @staticmethod
+    def SerializePayload(payload: str) -> str:
+        return Util.Util.TrimBase64(str(base64.b64encode(payload.encode("utf-8"))))
 
     def __init__(self, method: RequestMethod, url: str, headers: dict[str] = {}, payload = str()):
         self.Method: RequestMethod = method
@@ -20,12 +21,10 @@ class Base64Request:
         self.Payload = payload
         self.Headers: dict[str, object] = headers
 
-        self.Headers.update({"request": Base64Request.SerializeHeaders(payload)})
-
+        self.Headers.update({"request": Base64Request.SerializePayload(payload)})
 
         self.RequestSession = requests.Session()
         self.mRequest: requests.PreparedRequest = requests.Request(Base64Request.MethodStrings[int(self.Method)], self.URL, headers=self.Headers).prepare()
-
 
     def Send(self) -> requests.Response:
         return self.RequestSession.send(self.mRequest)
