@@ -7,9 +7,10 @@ from . import Util
 class RequestMethod(IntEnum):
     Get = 0
     Post = 1
+    Put = 2
 
 class Base64Request:
-    MethodStrings = list[str]([ "GET", "POST" ])
+    MethodStrings = list[str]([ "GET", "POST", "PUT" ])
 
     @staticmethod
     def SerializePayload(payload: str) -> str:
@@ -28,3 +29,10 @@ class Base64Request:
 
     def Send(self) -> requests.Response:
         return self.RequestSession.send(self.mRequest)
+
+class ImageRequest(Base64Request):
+    def __init__(self, url: str, method: RequestMethod):
+        pass
+
+    def Send() -> requests.Response:
+        return None
