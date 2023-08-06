@@ -54,16 +54,40 @@ class ExecManager:
 
         return responseMap["Payload"]
 
-    def EndTenure(self, studentid: str) -> bool:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/End", dict({"apikey": self.APIKey}, json.dumps(dict({"studentid": studentid})))).Send()
+    def EndTenure(self, studentid: int) -> bool:
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/End", dict({"apikey": self.APIKey}), json.dumps(dict({"studentid": studentid}))).Send()
 
         if (not(response.ok)):
             print(response.reason)
+            return False
 
-        return response.ok
+        responseMap: dict = response.json()
+
+        print(responseMap)
+
+        if (responseMap["Type"] == 0):
+            print(responseMap)
+            return False
+
+        return True
 
     def ListAll(self) -> list[dict]:
         response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/Exec/ListAll", dict({"apikey": self.APIKey})).Send()
+
+        if (not(response.ok)):
+            print(response.reason)
+            return None
+
+        responseMap = response.json()
+
+        if (responseMap["Type"] == 0):
+            print(responseMap)
+            return None
+
+        return response.json()["Payload"]
+
+    def UpdateExec(self, execMap: dict):
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -90,4 +114,3 @@ class ExecImage:
     def __init__(self, studentid: str, imagepath: str):
         self.StudentID = studentid
         self.ImagePath = imagepath
-        self.image
