@@ -41,7 +41,7 @@ class ExecManager:
         return None
 
     def CreateExec(self, _exec: Exec) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/Create", dict({ "apikey": self.APIKey}), _exec.ToJson()).Send()
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec.ToJson()).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -55,7 +55,7 @@ class ExecManager:
         return responseMap["Payload"]
 
     def EndTenure(self, studentid: int) -> bool:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/End", dict({"apikey": self.APIKey}), json.dumps(dict({"studentid": studentid}))).Send()
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/End", dict({"apikey": self.APIKey}), json.dumps(dict({"studentid": studentid}))).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -72,7 +72,7 @@ class ExecManager:
         return True
 
     def ListAll(self) -> list[dict]:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/Exec/ListAll", dict({"apikey": self.APIKey})).Send()
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/ListAll", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -86,8 +86,8 @@ class ExecManager:
 
         return response.json()["Payload"]
 
-    def UpdateExec(self, execMap: dict):
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Exec/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
+    def UpdateExec(self, execMap: dict) -> dict:
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -100,17 +100,58 @@ class ExecManager:
             return None
 
         return response.json()["Payload"]
+
+class ExecImage:
+    def __init__(self, studentid: int, name: str, imageBuffer: str):
+        self.StudentID: int = studentid
+        self.Name: str = name
+        self.ImageBuffer: str = imageBuffer
+
+
+class ExecImageManager:
+    def __init__(self, baseURL: str, apikey: str):
+        self.BaseURL: str = baseURL
+        self.APIKey: str = apikey
+
+    def LoadImageFromFile(self, studentid: int, imagePath: str) -> ExecImage:
+        if (not(os.path.exists(imagePath))):
+            print(f"File {imagePath} doesn't exist.")
+            return None
+
+        execImage: ExecImage = None
+
+        with open(imagePath, 'r') as fp:
+            execImage = ExecImage(studentid, studentid, Util.Util.GetBase64String(fp.read()))
+
+        return execImage
 
 class ExecProfile:
     def __init__(self, studentid: int, imageId: str, description: str):
-        self.StudentID = studentid
-        self.ImageID = imageId
-        self.Description = description
+        self.StudentID: int = studentid
+        self.ImageID: str = imageId
+        self.Description: str = description
 
     def ToJson(self):
         return json.dumps(dict({ "studentid": self.StudentID, "imageid": self.ImageID, "description": self.Description }))
 
-class ExecImage:
-    def __init__(self, studentid: str, imagepath: str):
-        self.StudentID = studentid
-        self.ImagePath = imagepath
+class ExecProfileManager:
+    def __init__(self, baseURL: str, apikey: str):
+        self.BaseURL = baseURL
+        self.APIKey: str = apikey
+
+    def CreateProfile(self, execProfile: ExecProfile):
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
+
+        if (not(response.ok)):
+            print(response.reason)
+            return None
+
+        responseMap = response.json()
+
+        if (responseMap["Type"] == 0):
+            print(responseMap)
+            return None
+
+        return response.json()["Payload"]
+
+
