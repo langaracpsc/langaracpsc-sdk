@@ -24,15 +24,9 @@ class Base64Request:
 
         self.Headers.update({"request": Base64Request.SerializePayload(payload)})
 
-        self.RequestSession = requests.Session()
+        self.RequestSession: requests.Session = requests.Session()
         self.mRequest: requests.PreparedRequest = requests.Request(Base64Request.MethodStrings[int(self.Method)], self.URL, headers=self.Headers).prepare()
 
     def Send(self) -> requests.Response:
         return self.RequestSession.send(self.mRequest)
 
-class ImageRequest(Base64Request):
-    def __init__(self, url: str, method: RequestMethod):
-        pass
-
-    def Send() -> requests.Response:
-        return None

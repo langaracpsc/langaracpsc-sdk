@@ -101,29 +101,6 @@ class ExecManager:
 
         return response.json()["Payload"]
 
-class ExecImage:
-    def __init__(self, studentid: int, name: str, imageBuffer: str):
-        self.StudentID: int = studentid
-        self.Name: str = name
-        self.ImageBuffer: str = imageBuffer
-
-
-class ExecImageManager:
-    def __init__(self, baseURL: str, apikey: str):
-        self.BaseURL: str = baseURL
-        self.APIKey: str = apikey
-
-    def LoadImageFromFile(self, studentid: int, imagePath: str) -> ExecImage:
-        if (not(os.path.exists(imagePath))):
-            print(f"File {imagePath} doesn't exist.")
-            return None
-
-        execImage: ExecImage = None
-
-        with open(imagePath, 'r') as fp:
-            execImage = ExecImage(studentid, studentid, Util.Util.GetBase64String(fp.read()))
-
-        return execImage
 
 class ExecProfile:
     def __init__(self, studentid: int, imageId: str, description: str):
