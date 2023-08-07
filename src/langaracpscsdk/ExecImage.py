@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from . import Request
 from . import Util;
 
@@ -15,15 +16,18 @@ class ExecImage:
 
 class ImageRequest(Request.Base64Request):
     def __init__(self, url: str, apikey: str, image: ExecImage):
-        super(url, RequestMethod.Put)
+        super().__init__(Request.RequestMethod.Put, url)
 
-        self.Image = image
+        self.Image: ExecImage = image
 
-        self.Headers.update("apikey", apikey)
+        self.Headers.update({"apikey" : apikey })
+
+        print(self.Image.ToJson())
+
         self.Payload = dict({ "Request": Util.Util.GetBase64String(self.Image.ToJson()) })
 
         self.RequestSession= requests.Session()
-        self.mRequest = requests.Request(Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
+        self.mRequest = requests.Request(Request.Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
 
 class ExecImageManager:
     def __init__(self, baseURL: str, apikey: str):
@@ -43,7 +47,7 @@ class ExecImageManager:
         return execImage
 
     def CreateImage(self, image: ExecImage) -> dict:
-        response: request.Response = ImageRequest(self.BaseURL, image).Send()
+        response: request.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()
 
         if (not(response.ok)):
             print(response.reason)
