@@ -41,3 +41,21 @@ class ExecProfileManager:
             return imageResponse
 
         return self.UploadProfile(ExecProfile(studentid, imageResponse["ID"], description))
+
+    def GetProfile(self, studentid: int):
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
+
+        if (not(response.ok)):
+            print(response.reason)
+            return None
+
+        return response.json()
+
+    def GetActiveProfiles(self):
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/Active", dict({"apikey": self.APIKey})).Send()
+
+        if (not(response.ok)):
+            print(response.reason)
+            return None
+
+        return response.json()
