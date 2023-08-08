@@ -101,34 +101,3 @@ class ExecManager:
 
         return response.json()["Payload"]
 
-
-class ExecProfile:
-    def __init__(self, studentid: int, imageId: str, description: str):
-        self.StudentID: int = studentid
-        self.ImageID: str = imageId
-        self.Description: str = description
-
-    def ToJson(self):
-        return json.dumps(dict({ "studentid": self.StudentID, "imageid": self.ImageID, "description": self.Description }))
-
-class ExecProfileManager:
-    def __init__(self, baseURL: str, apikey: str):
-        self.BaseURL = baseURL
-        self.APIKey: str = apikey
-
-    def CreateProfile(self, execProfile: ExecProfile):
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
-
-        if (not(response.ok)):
-            print(response.reason)
-            return None
-
-        responseMap = response.json()
-
-        if (responseMap["Type"] == 0):
-            print(responseMap)
-            return None
-
-        return response.json()["Payload"]
-
-

@@ -24,9 +24,9 @@ class ImageRequest(Request.Base64Request):
 
         print(self.Image.ToJson())
 
-        self.Payload = dict({ "Request": Util.Util.GetBase64String(self.Image.ToJson()) })
+        self.Payload = dict({ "request": Util.Util.GetBase64String(self.Image.ToJson()) })
 
-        self.RequestSession= requests.Session()
+        self.RequestSession = requests.Session()
         self.mRequest = requests.Request(Request.Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
 
 class ExecImageManager:
