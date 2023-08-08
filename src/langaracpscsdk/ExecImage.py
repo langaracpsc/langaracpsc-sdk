@@ -29,6 +29,8 @@ class ImageRequest(Request.Base64Request):
         self.RequestSession = requests.Session()
         self.mRequest = requests.Request(Request.Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
 
+        print(self.mRequest)
+
 class ExecImageManager:
     def __init__(self, baseURL: str, apikey: str):
         self.BaseURL: str = baseURL
