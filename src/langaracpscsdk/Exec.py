@@ -25,7 +25,7 @@ class Exec:
         return json.dumps(dict({ "studentid": self.StudentID, "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position), "email": self.Email }))
 
 class ExecManager:
-    def __init__(self, apikey: str, baseurl: str):
+    def __init__(self, baseurl: str, apikey: str):
         self.APIKey: str = apikey
         self.BaseURL: str = baseurl
 
