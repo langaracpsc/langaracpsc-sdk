@@ -20,14 +20,31 @@ class ExecCommandHandler(CommandHandler):
         self.Manager: Exec.ExecManager = manager
 
     def Execute(self, args: list[str]):
-        if (len(args) < 3):
+        if (len(args) < 2):
             raise Exception("Insufficient arguments.")
-        if (not(os.path.exists(args[2]))):
-            raise Exception(f"File \"{args[2]}\" not found.")
-        pass
+
+        if (args[1] == "create"):
+            if (not(os.path.exists(args[2]))):
+                raise Exception(f"File \"{args[2]}\" not found.")
+            with open(args[2], 'r') as fp:
+                execMaps: list[dict] = json.loads(fp.read())
+
+                for execMap in execMaps:
+                    created: dict = self.Manager.CreateExecDict(execMap)
+                    print(f"Exec created: {created}")
+        
+        elif (args[1] == "end"):
+            execId: int = int(self.Manager.EndTenure(args[2]))
+            print(f"Tenure ended for {execId}")
+        
+        else:
+            raise Exception(f"Invalid command \"{args[1]}\"") 
+
 
 class CLI:
     DefaultConfigPath: str = f'{os.environ["HOME"]}/.langaracpsc.json'
+
+    UsageString: str = "Usage: cli [exec|profile]"
 
     def LoadConfig(configPath: str) -> str:
         try:
@@ -53,14 +70,22 @@ class CLI:
         self.ExecManagerInstance: Exec.ExecManager = Exec.ExecManager(baseUrl, apiKey)
         self.ProfileManager: ExecProfile.ExecProfileManager = ExecProfile.ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
 
-        Handlers: dict[str, CommandHandler] = {
-            "exec": ExecCommandHandler()
+        self.Handlers: dict[str, CommandHandler] = {
+            "exec": ExecCommandHandler(Exec.ExecManager(baseUrl, apiKey))
         }
 
-         
+        
     def Handle(self, command: str, args: list[str]):
-        self.Handlers[command].Handle(args)
+        try:
+            self.Handlers[command].Execute(args)
+        except KeyError:
+            print(f"Invalid command.\n{CLI.UsageString}")
+        except json.JSONDecodeError:
+            print(f"Failed to parse JSON.")
+        except Exception as e:
+            print(f"{e}\n{CLI.UsageString}")
 
-CLI().Handle()
-
-       
+if (len(sys.argv) < 2):
+    print(CLI.UsageString)
+else:
+    CLI().Handle(sys.argv[1], sys.argv[1:])
