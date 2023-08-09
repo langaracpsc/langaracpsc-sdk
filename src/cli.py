@@ -8,6 +8,7 @@ from langaracpscsdk import Exec
 from langaracpscsdk import ExecImage
 from langaracpscsdk import ExecProfile
 
+
 class CommandHandler:
     def __init__(self, command: str):
         self.Command: str = command
@@ -40,6 +41,35 @@ class ExecCommandHandler(CommandHandler):
         else:
             raise Exception(f"Invalid command \"{args[1]}\"") 
 
+class ExecProfileHandler(CommandHandler):
+    def __init__(self, manager: ExecProfile.ExecProfileManager):
+        super().__init__("profile")
+        self.Manager: ExecProfile.ExecProfileManager = manager
+
+    def Execute(self, args: list[str]):
+        if (len(args) < 2):
+            raise Exception("Insufficient arguments.")
+
+        if (args[1] == "create"):
+            if (not(os.path.exists(args[2]))):
+                raise Exception(f"File \"{args[2]}\" not found.")
+            with open(args[2], 'r') as fp:
+                profiles: list[dict] = json.loads(fp.read())
+                try: 
+                    for profile in profiles:
+                        created: dict = self.Manager.CreateProfile(profile["id"], f"{profile['image']}.png", profile["description"])
+                        print(f"Profile created: {created}")
+                except KeyError as e:
+                    raise Exception("Invalid field")
+       
+        elif (args[1] == "active"):
+            print(self.Manager.GetActiveProfiles())
+        
+        else:
+            try:
+                print(self.Manager.GetProfile(int(args[1])))
+            except:
+                raise Exception(f"Invalid command \"{args[1]}\"") 
 
 class CLI:
     DefaultConfigPath: str = f'{os.environ["HOME"]}/.langaracpsc.json'
@@ -71,10 +101,10 @@ class CLI:
         self.ProfileManager: ExecProfile.ExecProfileManager = ExecProfile.ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
 
         self.Handlers: dict[str, CommandHandler] = {
-            "exec": ExecCommandHandler(Exec.ExecManager(baseUrl, apiKey))
+            "exec": ExecCommandHandler(Exec.ExecManager(baseUrl, apiKey)),
+            "profile": ExecProfileHandler(ExecProfile.ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey))
         }
 
-        
     def Handle(self, command: str, args: list[str]):
         try:
             self.Handlers[command].Execute(args)
