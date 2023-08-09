@@ -1,4 +1,5 @@
 import json
+import requests
 from . import Exec
 from . import ExecImage
 from . import Request
@@ -49,7 +50,8 @@ class ExecProfileManager:
 
         return self.UploadProfile(ExecProfile(studentid, image, description))
 
-    def GetProfile(self, studentid: int):
+
+    def GetProfile(self, studentid: int) -> dict:
         response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
@@ -58,7 +60,7 @@ class ExecProfileManager:
 
         return response.json()
 
-    def GetActiveProfiles(self):
+    def GetActiveProfiles(self) -> dict:
         response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/Active", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):

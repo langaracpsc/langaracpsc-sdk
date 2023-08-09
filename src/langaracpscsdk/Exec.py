@@ -54,6 +54,21 @@ class ExecManager:
 
         return responseMap["Payload"]
 
+    def CreateExecDict(self, _exec: dict) -> dict:
+        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), json.dumps(_exec)).Send()
+
+        if (not(response.ok)):
+            print(response.reason)
+
+        responseMap = response.json()
+
+        if (responseMap["Type"] == 0):
+            print(responseMap)
+            return None
+
+        return responseMap["Payload"]
+
+
     def EndTenure(self, studentid: int) -> bool:
         response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/End", dict({"apikey": self.APIKey}), json.dumps(dict({"studentid": studentid}))).Send()
 
