@@ -22,8 +22,6 @@ class ImageRequest(Request.Base64Request):
 
         self.Headers.update({"apikey" : apikey })
 
-        print(self.Image.ToJson())
-
         self.Payload = dict({ "request": Util.Util.GetBase64String(self.Image.ToJson()) })
 
         self.RequestSession = requests.Session()
@@ -46,7 +44,7 @@ class ExecImageManager:
         with open(imagePath, "rb") as fp:
             execImage = ExecImage(studentid, studentid, Util.Util.GetBase64StringBytes(fp.read()))
 
-        return execImage
+            return execImage
 
     def CreateImage(self, image: ExecImage) -> dict:
         response: request.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()

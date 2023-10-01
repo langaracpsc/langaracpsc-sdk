@@ -35,9 +35,14 @@ class ExecProfileManager:
         return response.json()["Payload"]
 
     def CreateProfile(self, studentid: str, imagePath: str, description: str) -> dict:
-        imageResponse: dict = Request.Base64Request(Request.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send().json()
+        imageResponse: dict = Request.Base64Request(Request.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
 
+        if (not(imageResponse.ok)):
+            print(imageResponse.reason)
+            return None
+        
         image: str = None
+        imageResponse = imageResponse.json()
 
         if (imageResponse["Type"] == 0):
             image = self.ImageManager.CreateImage(self.ImageManager.LoadImageFromFile(studentid, imagePath))["ID"]
@@ -45,6 +50,8 @@ class ExecProfileManager:
             if (image == None):
                 print(f"Failed to create image for {studentid}")
                 return image
+
+        print(imageResponse.keys())
 
         image = json.loads(imageResponse["Payload"])["ID"]
 
