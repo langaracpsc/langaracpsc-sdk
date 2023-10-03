@@ -1,8 +1,8 @@
 import json
 import requests
-from . import Exec
-from . import ExecImage
-from . import Request
+from Exec import Exec
+from ExecImage import ExecImage, ExecImageManager
+from Request import JsonRequest, RequestMethod
 
 class ExecProfile:
     def __init__(self, studentid: int, imageId: str, description: str):
@@ -10,17 +10,20 @@ class ExecProfile:
         self.ImageID: str = imageId
         self.Description: str = description
 
+    def ToMap(self):
+        return dict({ "studentid": self.StudentID, "imageid": self.ImageID, "description": self.Description })
+
     def ToJson(self):
-        return json.dumps(dict({ "studentid": self.StudentID, "imageid": self.ImageID, "description": self.Description }))
+        return json.dumps(self.ToMap())
 
 class ExecProfileManager:
     def __init__(self, baseURL: str, imageURL: str, apikey: str):
         self.BaseURL = baseURL
         self.APIKey: str = apikey
-        self.ImageManager: ExecImage.ExecImageManager = ExecImage.ExecImageManager(imageURL, self.APIKey)
+        self.ImageManager: ExecImageManager = ExecImage.ExecImageManager(imageURL, self.APIKey)
 
-    def UploadProfile(self, execProfile: ExecProfile):
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
+    def UploadProfile(self, execProfile: ExecProfile) -> dict:
+        response: requests.Response = JsonRequest(f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -35,7 +38,7 @@ class ExecProfileManager:
         return response.json()["Payload"]
 
     def CreateProfile(self, studentid: str, imagePath: str, description: str) -> dict:
-        imageResponse: dict = Request.Base64Request(Request.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
+        imageResponse: dict = JsonRequest(JsonRequest.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
 
         if (not(imageResponse.ok)):
             print(imageResponse.reason)
@@ -59,7 +62,7 @@ class ExecProfileManager:
 
 
     def GetProfile(self, studentid: int) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -68,7 +71,7 @@ class ExecProfileManager:
         return response.json()
 
     def GetActiveProfiles(self) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/Active", dict({"apikey": self.APIKey})).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/Active", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
             print(response.reason)

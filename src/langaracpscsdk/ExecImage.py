@@ -1,8 +1,8 @@
 import os
 import json
 import requests
-from . import Request
-from . import Util;
+from Request import JsonRequest
+from Util import Util
 
 
 class ExecImage:
@@ -11,10 +11,13 @@ class ExecImage:
         self.Name: str = name
         self.ImageBuffer: str = imageBuffer
 
-    def ToJson(self):
+    def ToDict() -> dict:
         return json.dumps(dict({"id": self.StudentID, "name": self.Name, "buffer": self.ImageBuffer }))
 
-class ImageRequest(Request.Base64Request):
+    def ToJson(self) -> str:
+        return json.dumps(self.ToDict()) 
+
+class ImageRequest(JsonRequest):
     def __init__(self, url: str, apikey: str, image: ExecImage):
         super().__init__(Request.RequestMethod.Put, url)
 
@@ -22,7 +25,7 @@ class ImageRequest(Request.Base64Request):
 
         self.Headers.update({"apikey" : apikey })
 
-        self.Payload = dict({ "request": Util.Util.GetBase64String(self.Image.ToJson()) })
+        self.Payload = dict({ "request": Util.GetBase64String(self.Image.ToJson()) })
 
         self.RequestSession = requests.Session()
         self.mRequest = requests.Request(Request.Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
@@ -47,13 +50,16 @@ class ExecImageManager:
             return execImage
 
     def CreateImage(self, image: ExecImage) -> dict:
-        response: request.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()
+        response: requests.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()
 
         if (not(response.ok)):
             print(response.reason)
             return None
 
-        responseMap = response.json()
+        try:
+            responseMap = response.json()
+        except:
+            raise BaseException("Failed to parse server response.")
 
         if (responseMap["Type"] == 0):
             print(responseMap)
