@@ -1,8 +1,8 @@
 import json
 import requests
-from Exec import Exec
-from ExecImage import ExecImage, ExecImageManager
-from Request import JsonRequest, RequestMethod
+from langaracpscsdk.Exec import Exec
+from langaracpscsdk.ExecImage import ExecImage, ExecImageManager
+from langaracpscsdk.Request import JsonRequest, RequestMethod
 
 class ExecProfile:
     def __init__(self, studentid: int, imageId: str, description: str):

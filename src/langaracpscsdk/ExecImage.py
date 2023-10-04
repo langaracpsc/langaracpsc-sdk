@@ -1,8 +1,8 @@
 import os
 import json
 import requests
-from Request import JsonRequest, RequestMethod
-from Util import Util
+from langaracpscsdk.Request import JsonRequest, RequestMethod
+from langaracpscsdk.Util import Util
 
 
 class ExecImage:

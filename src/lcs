@@ -10,7 +10,7 @@ from langaracpscsdk.ExecProfile import ExecProfile, ExecProfileManager
 
 
 class CommandHandler:   
-    def __init__(self, command: str, usage: str = None):
+    def __init__(self, command: str, usage: str = str()):
         self.Command: str = command
         self.Usage: str = usage
 
@@ -18,8 +18,8 @@ class CommandHandler:
         pass
 
 class ExecCommandHandler(CommandHandler):
-    def __init__(self, manager: Exec.ExecManager):
-        super().__init__("exec")
+    def __init__(self, manager: ExecManager, usage: str = str()):
+        super().__init__("exec", usage)
         self.Manager: ExecManager = manager
 
     def Execute(self, args: list[str]):
@@ -46,13 +46,13 @@ class ExecCommandHandler(CommandHandler):
             raise Exception(f"Invalid command \"{args[1]}\"") 
 
 class ExecProfileHandler(CommandHandler):
-    def __init__(self, manager: ExecProfile.ExecProfileManager):
-        super().__init__("profile")
+    def __init__(self, manager: ExecProfileManager, usage: str = str()):
+        super().__init__("profile", usage)
         self.Manager: ExecProfile.ExecProfileManager = manager
 
     def Execute(self, args: list[str]):
         if (len(args) < 2):
-            raise Exception("Insufficient arguments.")
+            raise Exception(f"Insufficient arguments.\n{self.Usage}")
 
         if (args[1] == "create"):
             if (not(os.path.exists(args[2]))):
@@ -78,7 +78,7 @@ class ExecProfileHandler(CommandHandler):
 class CLI:
     DefaultConfigPath: str = f'{os.environ["HOME"]}/.langaracpsc.json'
 
-    UsageString: str = "Usage: cli [exec|profile]"
+    UsageString: str = "Usage: lcsc [exec|profile]"
 
     @staticmethod
     def LoadConfig(configPath: str) -> str:
@@ -106,8 +106,8 @@ class CLI:
         self.ProfileManager: ExecProfileManager = ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
 
         self.Handlers: dict[str, CommandHandler] = {
-            "exec": ExecCommandHandler(Exec.ExecManager(baseUrl, apiKey)),
-            "profile": ExecProfileHandler(ExecProfile.ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey))
+            "exec": ExecCommandHandler(ExecManager(baseUrl, apiKey), f"Usage: lcsc exec [list | create | update | end]"),
+            "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey))
         }
 
     def Handle(self, command: str, args: list[str]):
@@ -117,8 +117,8 @@ class CLI:
             print(f"Invalid command.\n{CLI.UsageString}")
         # except json.JSONDecodeError:
         #     print(f"Failed to parse JSON.")
-        # except Exception as e:
-        #     print(f"{e}\n{CLI.UsageString}")
+        except BaseException as e:
+            print(f"{e.args[0]}")
 
 if (len(sys.argv) < 2):
     print(CLI.UsageString)

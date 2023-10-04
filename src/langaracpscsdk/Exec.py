@@ -35,7 +35,7 @@ class ExecManager:
             jsonMap = json.loads(jsonStr)
             return Exec(jsonMap["studentid"], jsonMap["firstname"], jsonMap["lastName"], jsonMap["position"], jsonMap["email"])
 
-        except JsonDecodeError:
+        except json.JSONDecodeError:
             print(f"Failed to decode \'{jsonStr}\'")
 
         return None

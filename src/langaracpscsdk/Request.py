@@ -2,7 +2,7 @@ import json
 import base64
 import requests
 from enum import IntEnum
-from Util import Util
+from langaracpscsdk.Util import Util
 
 class RequestMethod(IntEnum):
     Get = 0
