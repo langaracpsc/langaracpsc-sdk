@@ -20,7 +20,7 @@ class ExecProfileManager:
     def __init__(self, baseURL: str, imageURL: str, apikey: str):
         self.BaseURL = baseURL
         self.APIKey: str = apikey
-        self.ImageManager: ExecImageManager = ExecImage.ExecImageManager(imageURL, self.APIKey)
+        self.ImageManager: ExecImageManager = ExecImageManager(imageURL, self.APIKey)
 
     def UploadProfile(self, execProfile: ExecProfile) -> dict:
         response: requests.Response = JsonRequest(f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
@@ -38,7 +38,7 @@ class ExecProfileManager:
         return response.json()["Payload"]
 
     def CreateProfile(self, studentid: str, imagePath: str, description: str) -> dict:
-        imageResponse: dict = JsonRequest(JsonRequest.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
+        imageResponse: requests.Response = JsonRequest(JsonRequest.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
 
         if (not(imageResponse.ok)):
             print(imageResponse.reason)

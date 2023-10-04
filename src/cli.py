@@ -4,27 +4,31 @@ import os
 import sys
 import json
 from argparse import ArgumentParser
-from langaracpscsdk import Exec
-from langaracpscsdk import ExecImage
-from langaracpscsdk import ExecProfile
+from langaracpscsdk.Exec import Exec, ExecManager
+from langaracpscsdk.ExecImage import ExecImage, ExecImageManager
+from langaracpscsdk.ExecProfile import ExecProfile, ExecProfileManager
 
 
-class CommandHandler:
-    def __init__(self, command: str):
+class CommandHandler:   
+    def __init__(self, command: str, usage: str = None):
         self.Command: str = command
+        self.Usage: str = usage
+
     def Execute(self, args: list[str]):
         pass
 
 class ExecCommandHandler(CommandHandler):
     def __init__(self, manager: Exec.ExecManager):
         super().__init__("exec")
-        self.Manager: Exec.ExecManager = manager
+        self.Manager: ExecManager = manager
 
     def Execute(self, args: list[str]):
         if (len(args) < 2):
-            raise Exception("Insufficient arguments.")
+            raise Exception(f"Insufficient arguments.\n{self.Usage}")
 
-        if (args[1] == "create"):
+        command: str = args[1]
+
+        if (command == "create"):
             if (not(os.path.exists(args[2]))):
                 raise Exception(f"File \"{args[2]}\" not found.")
             with open(args[2], 'r') as fp:
@@ -34,7 +38,7 @@ class ExecCommandHandler(CommandHandler):
                     created: dict = self.Manager.CreateExecDict(execMap)
                     print(f"Exec created: {created}")
         
-        elif (args[1] == "end"):
+        elif (command == "end"):
             execId: int = int(self.Manager.EndTenure(args[2]))
             print(f"Tenure ended for {execId}")
         
@@ -76,6 +80,7 @@ class CLI:
 
     UsageString: str = "Usage: cli [exec|profile]"
 
+    @staticmethod
     def LoadConfig(configPath: str) -> str:
         try:
             with open(configPath, 'r') as fp:
@@ -97,8 +102,8 @@ class CLI:
         baseUrl: str = self.Config["baseurl"]
         apiKey: str = self.Config["apikey"]
 
-        self.ExecManagerInstance: Exec.ExecManager = Exec.ExecManager(baseUrl, apiKey)
-        self.ProfileManager: ExecProfile.ExecProfileManager = ExecProfile.ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
+        self.ExecManagerInstance: ExecManager = ExecManager(baseUrl, apiKey)
+        self.ProfileManager: ExecProfileManager = ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
 
         self.Handlers: dict[str, CommandHandler] = {
             "exec": ExecCommandHandler(Exec.ExecManager(baseUrl, apiKey)),
