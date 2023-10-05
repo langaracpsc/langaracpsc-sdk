@@ -11,9 +11,7 @@ class RequestMethod(IntEnum):
 
 MethodStrings: list = list[str]([ "GET", "POST", "PUT" ])
 class JsonRequest:
-    def __init__(self, method: RequestMethod, url: str, headers: dict[str] = {}, payload = str()):
-        json.loads(payload) # will throw an exception on invalid JSON
-        
+    def __init__(self, method: RequestMethod, url: str, headers: dict[str] = {}, payload: dict = dict()):
         self.Method: RequestMethod = method
         self.URL: str = url
         self.Payload = payload

@@ -23,7 +23,7 @@ class ExecCommandHandler(CommandHandler):
         self.Manager: ExecManager = manager
 
     def Execute(self, args: list[str]):
-        if (len(args) < 2):
+        if (len(args) < 3):
             raise Exception(f"Insufficient arguments.\n{self.Usage}")
 
         command: str = args[1]
@@ -48,13 +48,16 @@ class ExecCommandHandler(CommandHandler):
 class ExecProfileHandler(CommandHandler):
     def __init__(self, manager: ExecProfileManager, usage: str = str()):
         super().__init__("profile", usage)
-        self.Manager: ExecProfile.ExecProfileManager = manager
+        self.Manager: ExecProfileManager = manager
 
     def Execute(self, args: list[str]):
         if (len(args) < 2):
             raise Exception(f"Insufficient arguments.\n{self.Usage}")
 
         if (args[1] == "create"):
+            if (len(args) < 3):
+                raise Exception(f"Insufficient arguments.\n{self.Usage}")
+            
             if (not(os.path.exists(args[2]))):
                 raise Exception(f"File \"{args[2]}\" not found.")
             with open(args[2], 'r') as fp:
@@ -92,7 +95,6 @@ class CLI:
 
         return None
 
-
     def __init__(self, configPath: str = DefaultConfigPath):
         self.Config: dict[str, str] = CLI.LoadConfig(configPath)
         
@@ -106,8 +108,10 @@ class CLI:
         self.ProfileManager: ExecProfileManager = ExecProfileManager(baseUrl, f"{baseUrl}/Image", apiKey)
 
         self.Handlers: dict[str, CommandHandler] = {
-            "exec": ExecCommandHandler(ExecManager(baseUrl, apiKey), f"Usage: lcsc exec [list | create | update | end]"),
-            "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey))
+            "exec": ExecCommandHandler(ExecManager(baseUrl, apiKey), f"usage: lcsc exec [list | create | update | end]"),
+            "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey), f"usage: lcsc profile [<id> | create | active ]")
+
+
         }
 
     def Handle(self, command: str, args: list[str]):
@@ -117,8 +121,8 @@ class CLI:
             print(f"Invalid command.\n{CLI.UsageString}")
         # except json.JSONDecodeError:
         #     print(f"Failed to parse JSON.")
-        except BaseException as e:
-            print(f"{e.args[0]}")
+        # except BaseException as e:
+        #     print(f"{e.args[0]}")
 
 if (len(sys.argv) < 2):
     print(CLI.UsageString)

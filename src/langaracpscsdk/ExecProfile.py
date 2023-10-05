@@ -38,7 +38,7 @@ class ExecProfileManager:
         return response.json()["Payload"]
 
     def CreateProfile(self, studentid: str, imagePath: str, description: str) -> dict:
-        imageResponse: requests.Response = JsonRequest(JsonRequest.RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
+        imageResponse: requests.Response = JsonRequest(RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
 
         if (not(imageResponse.ok)):
             print(imageResponse.reason)
