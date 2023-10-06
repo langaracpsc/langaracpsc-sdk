@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from langaracpscsdk.Request import JsonRequest, RequestMethod
+from langaracpscsdk.Request import JsonRequest, RequestMethod, MethodStrings
 from langaracpscsdk.Util import Util
 
 
@@ -11,7 +11,7 @@ class ExecImage:
         self.Name: str = name
         self.ImageBuffer: str = imageBuffer
 
-    def ToDict() -> dict:
+    def ToDict(self) -> dict:
         return json.dumps(dict({"id": self.StudentID, "name": self.Name, "buffer": self.ImageBuffer }))
 
     def ToJson(self) -> str:
@@ -25,10 +25,10 @@ class ImageRequest(JsonRequest):
 
         self.Headers.update({"apikey" : apikey })
 
-        self.Payload = dict(self.Image.ToJson())
+        self.Payload = self.Image.ToDict()
 
         self.RequestSession = requests.Session()
-        self.mRequest = requests.Request(Request.Base64Request.MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
+        self.mRequest = requests.Request(MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
 
         print(self.mRequest)
 

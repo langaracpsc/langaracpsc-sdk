@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from . import Request
+from langaracpscsdk.Request import JsonRequest, RequestMethod
 from enum import IntEnum
 
 class ExecPosition(IntEnum):
@@ -41,7 +41,7 @@ class ExecManager:
         return None
 
     def CreateExec(self, _exec: Exec) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec.ToJson()).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec.ToJson()).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -55,7 +55,7 @@ class ExecManager:
         return responseMap["Payload"]
 
     def CreateExecDict(self, _exec: dict) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), json.dumps(_exec)).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), json.dumps(_exec)).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -87,7 +87,7 @@ class ExecManager:
         return True
 
     def ListAll(self) -> list[dict]:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Get, f"{self.BaseURL}/ListAll", dict({"apikey": self.APIKey})).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/ListAll", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -102,7 +102,7 @@ class ExecManager:
         return response.json()["Payload"]
 
     def UpdateExec(self, execMap: dict) -> dict:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
 
         if (not(response.ok)):
             print(response.reason)

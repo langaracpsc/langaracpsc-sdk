@@ -23,7 +23,7 @@ class ExecProfileManager:
         self.ImageManager: ExecImageManager = ExecImageManager(imageURL, self.APIKey)
 
     def UploadProfile(self, execProfile: ExecProfile) -> dict:
-        response: requests.Response = JsonRequest(f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -54,9 +54,9 @@ class ExecProfileManager:
                 print(f"Failed to create image for {studentid}")
                 return image
 
-        print(imageResponse.keys())
+        print(imageResponse)
 
-        image = json.loads(imageResponse["Payload"])["ID"]
+        image = imageResponse["Payload"]["ID"]
 
         return self.UploadProfile(ExecProfile(studentid, image, description))
 
