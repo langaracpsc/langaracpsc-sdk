@@ -19,18 +19,15 @@ class ExecImage:
 
 class ImageRequest(JsonRequest):
     def __init__(self, url: str, apikey: str, image: ExecImage):
-        super().__init__(RequestMethod.Put, url)
+        super().__init__(RequestMethod.Put, url, {"apikey": apikey})
 
         self.Image: ExecImage = image
-
-        self.Headers.update({"apikey" : apikey })
 
         self.Payload = self.Image.ToDict()
 
         self.RequestSession = requests.Session()
         self.mRequest = requests.Request(MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
 
-        print(self.mRequest)
 
 class ExecImageManager:
     def __init__(self, baseURL: str, apikey: str):

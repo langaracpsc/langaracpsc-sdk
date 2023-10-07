@@ -10,7 +10,7 @@ class ExecProfile:
         self.ImageID: str = imageId
         self.Description: str = description
 
-    def ToMap(self):
+    def ToDict(self):
         return dict({ "studentid": self.StudentID, "imageid": self.ImageID, "description": self.Description })
 
     def ToJson(self):
@@ -23,10 +23,15 @@ class ExecProfileManager:
         self.ImageManager: ExecImageManager = ExecImageManager(imageURL, self.APIKey)
 
     def UploadProfile(self, execProfile: ExecProfile) -> dict:
-        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToJson()).Send()
+        req = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToDict())
+
+
+#        print(req.ToDict())
+
+        response: requests.Response = req.Send()# requests.post(f"{self.BaseURL}/Create", headers=dict({"apikey": self.APIKey, "Content-Type": "application/json"}, json=json.dumps(execProfile.ToDict())))
 
         if (not(response.ok)):
-            print(response.reason)
+            print(f"Profile creation failed for {execProfile.StudentID}. Reason: {response.reason}. content: {response.content}")
             return None
 
         responseMap = response.json()
@@ -41,7 +46,7 @@ class ExecProfileManager:
         imageResponse: requests.Response = JsonRequest(RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
 
         if (not(imageResponse.ok)):
-            print(imageResponse.reason)
+            print(f"Image request failed because {imageResponse.reason}")
             return None
         
         image: str = None
@@ -53,8 +58,10 @@ class ExecProfileManager:
             if (image == None):
                 print(f"Failed to create image for {studentid}")
                 return image
+            else:
+                print(f"Created image for {studentid}")
 
-        print(imageResponse)
+        # print(imageResponse)
 
         image = imageResponse["Payload"]["ID"]
 

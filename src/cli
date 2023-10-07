@@ -110,8 +110,6 @@ class CLI:
         self.Handlers: dict[str, CommandHandler] = {
             "exec": ExecCommandHandler(ExecManager(baseUrl, apiKey), f"usage: lcsc exec [list | create | update | end]"),
             "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey), f"usage: lcsc profile [<id> | create | active ]")
-
-
         }
 
     def Handle(self, command: str, args: list[str]):
