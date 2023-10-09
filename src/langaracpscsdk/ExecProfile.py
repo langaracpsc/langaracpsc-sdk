@@ -25,9 +25,6 @@ class ExecProfileManager:
     def UploadProfile(self, execProfile: ExecProfile) -> dict:
         req = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToDict())
 
-
-#        print(req.ToDict())
-
         response: requests.Response = req.Send()# requests.post(f"{self.BaseURL}/Create", headers=dict({"apikey": self.APIKey, "Content-Type": "application/json"}, json=json.dumps(execProfile.ToDict())))
 
         if (not(response.ok)):
@@ -60,10 +57,8 @@ class ExecProfileManager:
                 return image
             else:
                 print(f"Created image for {studentid}")
-
-        # print(imageResponse)
-
-        image = imageResponse["Payload"]["ID"]
+        else:
+            image = imageResponse["Payload"]["ID"]
 
         return self.UploadProfile(ExecProfile(studentid, image, description))
 
@@ -72,7 +67,7 @@ class ExecProfileManager:
         response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
-            print(response.reason)
+            print(f"Failed to fetch profile. Reason: {response.reason} -> {response.content}")
             return None
 
         return response.json()
@@ -81,7 +76,7 @@ class ExecProfileManager:
         response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/Active", dict({"apikey": self.APIKey})).Send()
 
         if (not(response.ok)):
-            print(response.reason)
+            print(f"Failed to fetch active profiles. Reason: {response.reason} -> {response.content}")
             return None
 
         return response.json()

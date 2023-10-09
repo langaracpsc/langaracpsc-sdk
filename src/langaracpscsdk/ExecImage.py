@@ -4,7 +4,6 @@ import requests
 from langaracpscsdk.Request import JsonRequest, RequestMethod, MethodStrings
 from langaracpscsdk.Util import Util
 
-
 class ExecImage:
     def __init__(self, studentid: int, name: str, imageBuffer: str):
         self.StudentID: int = studentid
@@ -26,7 +25,7 @@ class ImageRequest(JsonRequest):
         self.Payload = self.Image.ToDict()
 
         self.RequestSession = requests.Session()
-        self.mRequest = requests.Request(MethodStrings[int(self.Method)], self.URL, json=self.Payload, headers=self.Headers).prepare()
+        self.mRequest = requests.Request(MethodStrings[int(self.Method)], self.URL, data=self.Payload, headers=self.Headers).prepare()
 
 
 class ExecImageManager:
@@ -50,7 +49,7 @@ class ExecImageManager:
         response: requests.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()
 
         if (not(response.ok)):
-            print(response.reason)
+            print(f"Failed to create image for {image.StudentID}. Reason: {response.reason} -> {response.content}")
             return None
 
         responseMap: dict = None 
@@ -65,4 +64,3 @@ class ExecImageManager:
             return None
 
         return responseMap["Payload"]
-
