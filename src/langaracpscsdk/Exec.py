@@ -21,8 +21,11 @@ class Exec:
         self.Position: ExecPosition = position
         self.Email: str = email
 
+    def ToDict(self) -> dict:
+        return dict({ "studentid": self.StudentID, "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position), "email": self.Email })
+
     def ToJson(self) -> str:
-        return json.dumps(dict({ "studentid": self.StudentID, "firstname": self.FirstName, "lastname": self.LastName, "position": int(self.Position), "email": self.Email }))
+        return json.dumps()
 
 class ExecManager:
     def __init__(self, baseurl: str, apikey: str):
@@ -41,7 +44,7 @@ class ExecManager:
         return None
 
     def CreateExec(self, _exec: Exec) -> dict:
-        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec.ToJson()).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec.ToDict()).Send()
 
         if (not(response.ok)):
             print(response.reason)
@@ -55,7 +58,7 @@ class ExecManager:
         return responseMap["Payload"]
 
     def CreateExecDict(self, _exec: dict) -> dict:
-        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), json.dumps(_exec)).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({ "apikey": self.APIKey}), _exec).Send()
 
         if (not(response.ok)):
             print(response.reason)

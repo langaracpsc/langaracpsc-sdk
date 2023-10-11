@@ -58,11 +58,13 @@ class ExecProfileManager:
             else:
                 print(f"Created image for {studentid}")
         else:
+            print(imageResponse)
+            
             image = imageResponse["Payload"]["ID"]
 
         return self.UploadProfile(ExecProfile(studentid, image, description))
 
-
+    
     def GetProfile(self, studentid: int) -> dict:
         response: requests.Response = JsonRequest(RequestMethod.Get, f"{self.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send()
 
