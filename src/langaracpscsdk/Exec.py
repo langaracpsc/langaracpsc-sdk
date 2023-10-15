@@ -105,7 +105,7 @@ class ExecManager:
         return response.json()["Payload"]
 
     def UpdateExec(self, execMap: dict) -> dict:
-        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), json.dumps(execMap)).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), execMap).Send()
 
         if (not(response.ok)):
             print(response.reason)
