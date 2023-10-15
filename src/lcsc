@@ -40,7 +40,24 @@ class ExecCommandHandler(CommandHandler):
                 for execMap in execMaps:
                     created: dict = self.Manager.CreateExecDict(execMap)
                     print(f"Exec created: {created}")
-        
+
+        elif (command == "list"):
+            for _exec in self.Manager.ListAll():
+                print(_exec)
+
+        elif (command == "update"):
+            if (len(args) < 3):
+                raise Exception(f"Insufficient arguments.\n{self.Usage}")
+            
+            if (not(os.path.exists(args[2]))):
+                raise Exception(f"File \"{args[2]}\" not found.")
+            with open(args[2], 'r') as fp:
+                execMaps: list[dict] = json.loads(fp.read())
+
+                for execMap in execMaps:
+                    created: dict = self.Manager.UpdateExec(execMap)
+                    print(f"Exec updated: {created}")
+
         elif (command == "end"):
             execId: int = int(self.Manager.EndTenure(args[2]))
             print(f"Tenure ended for {execId}")
