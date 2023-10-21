@@ -93,7 +93,7 @@ class ExecProfileHandler(CommandHandler):
                     raise Exception("Invalid field")
        
         elif (args[1] == "active"):
-            for profile in self.Manager.GetActiveProfiles()["Payload"]:
+            for profile in self.Manager.GetActiveProfiles():
                 print(profile)
         
         else:

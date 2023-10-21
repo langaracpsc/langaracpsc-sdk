@@ -73,7 +73,7 @@ class ExecManager:
 
 
     def EndTenure(self, studentid: int) -> bool:
-        response: requests.Response = Request.Base64Request(Request.RequestMethod.Post, f"{self.BaseURL}/End", dict({"apikey": self.APIKey}), json.dumps(dict({"studentid": studentid}))).Send()
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/End", dict({"apikey": self.APIKey}), dict({"studentid": int(studentid)})).Send()
 
         if (not(response.ok)):
             print(response.reason)

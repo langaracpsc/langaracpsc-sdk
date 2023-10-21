@@ -81,4 +81,4 @@ class ExecProfileManager:
             print(f"Failed to fetch active profiles. Reason: {response.reason} -> {response.content}")
             return None
 
-        return response.json()
+        return response.json()["Payload"]
