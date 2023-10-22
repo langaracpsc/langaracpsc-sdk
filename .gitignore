@@ -1,6 +1,6 @@
 src/.DS_Store
 src/main.py
-src/langaracpscsdk/__pycache__/
+**/__pycache__/
 images/
 **/*.png
 **/*.json

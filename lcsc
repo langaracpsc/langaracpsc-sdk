@@ -9,7 +9,7 @@ from langaracpscsdk.ExecImage import ExecImage, ExecImageManager
 from langaracpscsdk.ExecProfile import ExecProfile, ExecProfileManager
 
 
-class CommandHandler:   
+class CommandHandler: 
     def __init__(self, command: str, usage: str = str()):
         self.Command: str = command
         self.Usage: str = usage

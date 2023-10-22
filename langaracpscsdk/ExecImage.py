@@ -5,6 +5,8 @@ from langaracpscsdk.Request import JsonRequest, RequestMethod, MethodStrings
 from langaracpscsdk.Util import Util
 
 class ExecImage:
+    """Stores an image in base64 with metadata
+    """
     def __init__(self, studentid: int, name: str, imageBuffer: str):
         self.StudentID: int = studentid
         self.Name: str = name
@@ -17,7 +19,16 @@ class ExecImage:
         return json.dumps(self.ToDict()) 
 
 class ImageRequest(JsonRequest):
+    """Http request for ExecImage
+    """
     def __init__(self, url: str, apikey: str, image: ExecImage):
+        """Constructor
+
+        Args:
+            url (str): URL
+            apikey (str): API key
+            image (ExecImage): Payload image.
+        """
         super().__init__(RequestMethod.Put, url, {"apikey": apikey})
 
         self.Image: ExecImage = image
@@ -29,11 +40,28 @@ class ImageRequest(JsonRequest):
 
 
 class ExecImageManager:
+    """Routines for managing ExecImage objects.
+    """
     def __init__(self, baseURL: str, apikey: str):
+        """Constructor
+
+        Args:
+            baseURL (str): Base API URL
+            apikey (str): API key
+        """
         self.BaseURL: str = baseURL
         self.APIKey: str = apikey
-    
+
     def LoadImageFromFile(self, studentid: int, imagePath: str) -> ExecImage:
+        """Loads an image from the given file, and creates an ExecImage of it.
+
+        Args:
+            studentid (int): Student id of the exec.
+            imagePath (str): Path to the image.
+
+        Returns:
+            ExecImage: Constructed image.
+        """
         if (not(os.path.exists(imagePath))):
             print(f"File {imagePath} doesn't exist.")
             return None
@@ -46,6 +74,17 @@ class ExecImageManager:
         return execImage
 
     def CreateImage(self, image: ExecImage) -> dict:
+        """Adds the given image to the database
+
+        Args:
+            image (ExecImage): Image to add.
+
+        Raises:
+            BaseException: In case of server response failure.
+
+        Returns:
+            dict: Created image. 
+        """
         response: requests.Response = ImageRequest(f"{self.BaseURL}/Create", self.APIKey, image).Send()
 
         if (not(response.ok)):
