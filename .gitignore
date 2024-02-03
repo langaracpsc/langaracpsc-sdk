@@ -1,5 +1,6 @@
 src/.DS_Store
 src/main.py
+./lcsc
 **/__pycache__/
 images/
 **/*.png

@@ -4,6 +4,7 @@ import os
 import sys
 import json
 from argparse import ArgumentParser
+from typing import Any
 from langaracpscsdk.Exec import Exec, ExecManager
 from langaracpscsdk.ExecImage import ExecImage, ExecImageManager
 from langaracpscsdk.ExecProfile import ExecProfile, ExecProfileManager
@@ -13,7 +14,7 @@ class CommandHandler:
     def __init__(self, command: str, usage: str = str()):
         self.Command: str = command
         self.Usage: str = usage
-
+    
     def Execute(self, args: list[str]):
         pass
 
@@ -51,6 +52,7 @@ class ExecCommandHandler(CommandHandler):
             
             if (not(os.path.exists(args[2]))):
                 raise Exception(f"File \"{args[2]}\" not found.")
+
             with open(args[2], 'r') as fp:
                 execMaps: list[dict] = json.loads(fp.read())
 
@@ -87,6 +89,7 @@ class ExecProfileHandler(CommandHandler):
                 profiles: list[dict] = json.loads(fp.read())
                 try: 
                     for profile in profiles:
+                        print(profile)
                         created: dict = self.Manager.CreateProfile(profile["id"], profile["image"], profile["description"])
                         print(f"Profile created: {created}")
                 except KeyError as e:
@@ -105,7 +108,7 @@ class ExecProfileHandler(CommandHandler):
 class CLI:
     DefaultConfigPath: str = f'{os.environ["HOME"]}/.langaracpsc.json'
 
-    UsageString: str = "Usage: lcsc [exec|profile]"
+    UsageString: str = "Usage: lcsc [exec | profile]"
 
     @staticmethod
     def LoadConfig(configPath: str) -> str:

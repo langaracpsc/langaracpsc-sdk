@@ -32,9 +32,9 @@ class ImageRequest(JsonRequest):
         super().__init__(RequestMethod.Put, url, {"apikey": apikey})
 
         self.Image: ExecImage = image
-
+        
         self.Payload = self.Image.ToDict()
-
+        
         self.RequestSession = requests.Session()
         self.mRequest = requests.Request(MethodStrings[int(self.Method)], self.URL, data=self.Payload, headers=self.Headers).prepare()
 
@@ -72,6 +72,9 @@ class ExecImageManager:
             execImage = ExecImage(studentid, studentid, Util.GetBase64StringBytes(fp.read()))
 
         return execImage
+
+    def UpdateImage(self):
+        return
 
     def CreateImage(self, image: ExecImage) -> dict:
         """Adds the given image to the database
