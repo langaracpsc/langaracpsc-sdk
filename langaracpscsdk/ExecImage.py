@@ -13,10 +13,11 @@ class ExecImage:
         self.ImageBuffer: str = imageBuffer
 
     def ToDict(self) -> dict:
-        return json.dumps(dict({"id": self.StudentID, "name": self.Name, "buffer": self.ImageBuffer }))
+        return json.dumps(dict({"id": self.StudentID, "path": self.Name, "buffer": self.ImageBuffer }))
 
     def ToJson(self) -> str:
         return json.dumps(self.ToDict()) 
+
 
 class ImageRequest(JsonRequest):
     """Http request for ExecImage
@@ -69,12 +70,9 @@ class ExecImageManager:
         execImage: ExecImage = None
 
         with open(imagePath, "rb") as fp:
-            execImage = ExecImage(studentid, studentid, Util.GetBase64StringBytes(fp.read()))
+            execImage = ExecImage(studentid, imagePath, Util.GetBase64StringBytes(fp.read()))
 
         return execImage
-
-    def UpdateImage(self):
-        return
 
     def CreateImage(self, image: ExecImage) -> dict:
         """Adds the given image to the database

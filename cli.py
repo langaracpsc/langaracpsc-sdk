@@ -85,20 +85,35 @@ class ExecProfileHandler(CommandHandler):
             
             if (not(os.path.exists(args[2]))):
                 raise Exception(f"File \"{args[2]}\" not found.")
+
             with open(args[2], 'r') as fp:
                 profiles: list[dict] = json.loads(fp.read())
                 try: 
                     for profile in profiles:
                         print(profile)
+
                         created: dict = self.Manager.CreateProfile(profile["id"], profile["image"], profile["description"])
+
                         print(f"Profile created: {created}")
+
                 except KeyError as e:
                     raise Exception("Invalid field")
        
         elif (args[1] == "active"):
             for profile in self.Manager.GetActiveProfiles():
                 print(profile)
-        
+
+        elif (args[1] == "update"):
+            if (not(os.path.exists(args[2]))):
+                raise Exception(f"File \"{args[2]}\" not found.")
+
+            with open(args[2], 'r') as fp:
+                profiles: list[dict] = json.loads(fp.read())
+                
+                for profile in profiles:
+                    print(profile)
+                    updated: dict = self.Manager.UpdateProfile(profile)
+                    print(f"Profile updated: {updated}")
         else:
             try:
                 print(self.Manager.GetProfile(int(args[1])))
@@ -136,7 +151,7 @@ class CLI:
 
         self.Handlers: dict[str, CommandHandler] = {
             "exec": ExecCommandHandler(ExecManager(baseUrl, apiKey), f"Usage: lcsc exec [list | create | update | end]"),
-            "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey), f"Usage: lcsc profile [<id> | create | active ]")
+            "profile": ExecProfileHandler(ExecProfileManager(f"{baseUrl}/Profile", f"{baseUrl}/Image", apiKey), f"Usage: lcsc profile [<id> | create | update | active ]")
         }
 
     def Handle(self, command: str, args: list[str]):

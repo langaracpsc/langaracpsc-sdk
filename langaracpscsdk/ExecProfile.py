@@ -61,7 +61,7 @@ class ExecProfileManager:
         """
         req = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Create", dict({"apikey": self.APIKey}), execProfile.ToDict())
 
-        response: requests.Response = req.Send()# requests.post(f"{self.BaseURL}/Create", headers=dict({"apikey": self.APIKey, "Content-Type": "application/json"}, json=json.dumps(execProfile.ToDict())))
+        response: requests.Response = req.Send()
 
         if (not(response.ok)):
             print(f"Profile creation failed for {execProfile.StudentID}. Reason: {response.reason}. content: {response.content}")
@@ -70,6 +70,38 @@ class ExecProfileManager:
         responseMap = response.json()
 
         if (responseMap["Type"] == 0):
+            print(responseMap)
+            return None
+
+        return response.json()["Payload"]
+
+    def UpdateProfile(self, profileMap: dict[str, str]):
+        """Updates the given exec profile on the backend
+
+        Args:
+            profileMap (dict): Profile to update
+
+        Returns:
+            dict: Changed profile as a confirmation.
+        """
+        print(profileMap)
+        if ("image" in profileMap.keys()):
+            imageResult = self.ImageManager.CreateImage(self.ImageManager.LoadImageFromFile(profileMap["id"], profileMap["image"]))
+            print(imageResult)
+
+        profileMap.pop("image")
+
+        response: requests.Response = JsonRequest(RequestMethod.Post, f"{self.BaseURL}/Update", dict({"apikey": self.APIKey}), profileMap).Send()
+
+        print(response.url)
+
+        if (not(response.ok)):
+            print(response.reason)
+            return None
+
+        responseMap = response.json()
+
+        if (responseMap["Type"] <= 0):
             print(responseMap)
             return None
 
@@ -87,7 +119,7 @@ class ExecProfileManager:
             dict: Created profile.
         """
 
-        imageResponse: requests.Response = JsonRequest(RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() #.json()
+        imageResponse: requests.Response = JsonRequest(RequestMethod.Get, f"{self.ImageManager.BaseURL}/{studentid}", dict({"apikey": self.APIKey})).Send() 
 
         if (not(imageResponse.ok)):
             print(f"Image request failed because {imageResponse.reason}")

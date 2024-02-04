@@ -170,7 +170,7 @@ class ExecManager:
         return response.json()["Payload"]
 
     def UpdateExec(self, execMap: dict) -> dict:
-        """Updates the given exec info on the database.
+        """Updates the given exec info on the backend.
 
         Args:
             execMap (dict): Exec info to update
