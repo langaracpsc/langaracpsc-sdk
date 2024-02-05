@@ -1,4 +1,3 @@
-
 LangaraCPSC (LCSC) Command Line Interface (CLI)
 ============
 

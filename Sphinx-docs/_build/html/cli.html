@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cli module &#8212; langaracpsc-sdk  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="docstrings2md module" href="docstrings2md.html" />
+    <link rel="prev" title="Welcome to langaracpsc-sdk’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-cli">
+<span id="cli-module"></span><h1>cli module<a class="headerlink" href="#module-cli" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="cli.CLI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">CLI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/Users/rishit/.langaracpsc.json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CLI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CLI" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cli.CLI.DefaultConfigPath">
+<span class="sig-name descname"><span class="pre">DefaultConfigPath</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/Users/rishit/.langaracpsc.json'</span></em><a class="headerlink" href="#cli.CLI.DefaultConfigPath" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.CLI.Handle">
+<span class="sig-name descname"><span class="pre">Handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CLI.Handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CLI.Handle" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.CLI.LoadConfig">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LoadConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cli.html#CLI.LoadConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CLI.LoadConfig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cli.CLI.UsageString">
+<span class="sig-name descname"><span class="pre">UsageString</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Usage:</span> <span class="pre">lcsc</span> <span class="pre">[exec|profile]'</span></em><a class="headerlink" href="#cli.CLI.UsageString" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.CLI.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/Users/rishit/.langaracpsc.json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CLI.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CLI.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cli.CommandHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">CommandHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CommandHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CommandHandler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.CommandHandler.Execute">
+<span class="sig-name descname"><span class="pre">Execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CommandHandler.Execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CommandHandler.Execute" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.CommandHandler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#CommandHandler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.CommandHandler.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cli.ExecCommandHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">ExecCommandHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="langaracpscsdk.html#langaracpscsdk.Exec.ExecManager" title="langaracpscsdk.Exec.ExecManager"><span class="pre">ExecManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecCommandHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecCommandHandler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cli.CommandHandler" title="cli.CommandHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandHandler</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.ExecCommandHandler.Execute">
+<span class="sig-name descname"><span class="pre">Execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecCommandHandler.Execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecCommandHandler.Execute" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.ExecCommandHandler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="langaracpscsdk.html#langaracpscsdk.Exec.ExecManager" title="langaracpscsdk.Exec.ExecManager"><span class="pre">ExecManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecCommandHandler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecCommandHandler.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cli.ExecProfileHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cli.</span></span><span class="sig-name descname"><span class="pre">ExecProfileHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="langaracpscsdk.html#langaracpscsdk.ExecProfile.ExecProfileManager" title="langaracpscsdk.ExecProfile.ExecProfileManager"><span class="pre">ExecProfileManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecProfileHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecProfileHandler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cli.CommandHandler" title="cli.CommandHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandHandler</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.ExecProfileHandler.Execute">
+<span class="sig-name descname"><span class="pre">Execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecProfileHandler.Execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecProfileHandler.Execute" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cli.ExecProfileHandler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="langaracpscsdk.html#langaracpscsdk.ExecProfile.ExecProfileManager" title="langaracpscsdk.ExecProfile.ExecProfileManager"><span class="pre">ExecProfileManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#ExecProfileHandler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cli.ExecProfileHandler.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">langaracpsc-sdk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cli module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cli.CLI"><code class="docutils literal notranslate"><span class="pre">CLI</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CLI.DefaultConfigPath"><code class="docutils literal notranslate"><span class="pre">CLI.DefaultConfigPath</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CLI.Handle"><code class="docutils literal notranslate"><span class="pre">CLI.Handle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CLI.LoadConfig"><code class="docutils literal notranslate"><span class="pre">CLI.LoadConfig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CLI.UsageString"><code class="docutils literal notranslate"><span class="pre">CLI.UsageString</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CLI.__init__"><code class="docutils literal notranslate"><span class="pre">CLI.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cli.CommandHandler"><code class="docutils literal notranslate"><span class="pre">CommandHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CommandHandler.Execute"><code class="docutils literal notranslate"><span class="pre">CommandHandler.Execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.CommandHandler.__init__"><code class="docutils literal notranslate"><span class="pre">CommandHandler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cli.ExecCommandHandler"><code class="docutils literal notranslate"><span class="pre">ExecCommandHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli.ExecCommandHandler.Execute"><code class="docutils literal notranslate"><span class="pre">ExecCommandHandler.Execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.ExecCommandHandler.__init__"><code class="docutils literal notranslate"><span class="pre">ExecCommandHandler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cli.ExecProfileHandler"><code class="docutils literal notranslate"><span class="pre">ExecProfileHandler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli.ExecProfileHandler.Execute"><code class="docutils literal notranslate"><span class="pre">ExecProfileHandler.Execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cli.ExecProfileHandler.__init__"><code class="docutils literal notranslate"><span class="pre">ExecProfileHandler.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docstrings2md.html">docstrings2md module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="langaracpscsdk.html">langaracpscsdk package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to langaracpsc-sdk’s documentation!</a></li>
+      <li>Next: <a href="docstrings2md.html" title="next chapter">docstrings2md module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, LCS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/cli.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

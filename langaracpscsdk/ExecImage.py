@@ -10,8 +10,8 @@ class ExecImage:
     def __init__(self, studentid: int, name: str, imageBuffer: str):
         self.StudentID: int = studentid
         self.Name: str = name
-        self.ImageBuffer: str = imageBuffer
-
+        self.ImageBuffer: str = imageBuffer 
+    
     def ToDict(self) -> dict:
         return json.dumps(dict({"id": self.StudentID, "path": self.Name, "buffer": self.ImageBuffer }))
 
@@ -52,6 +52,7 @@ class ExecImageManager:
         """
         self.BaseURL: str = baseURL
         self.APIKey: str = apikey
+
 
     def LoadImageFromFile(self, studentid: int, imagePath: str) -> ExecImage:
         """Loads an image from the given file, and creates an ExecImage of it.

@@ -84,7 +84,6 @@ class ExecProfileManager:
         Returns:
             dict: Changed profile as a confirmation.
         """
-        print(profileMap)
         if ("image" in profileMap.keys()):
             imageResult = self.ImageManager.CreateImage(self.ImageManager.LoadImageFromFile(profileMap["id"], profileMap["image"]))
             print(imageResult)
